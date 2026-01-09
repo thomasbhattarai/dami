@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>About Us - VeloRent</title>
+    
+    <!-- Embedded CSS -->
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f8f9fa;
+            color: #2c3e50;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hai {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .about-section {
+            flex: 1;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .navbar img {
+            height: 50px;
+            transition: transform 0.3s;
+        }
+
+        .navbar img:hover {
+            transform: scale(1.05);
+        }
+
+        .menu ul {
+            display: flex;
+            list-style: none;
+        }
+
+        .menu li {
+            margin-left: 40px;
+        }
+
+        .menu a {
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s, border-bottom 0.3s;
+            padding-bottom: 5px;
+            position: relative;
+        }
+
+        .menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+        }
+
+        .menu a:hover {
+            color: #667eea;
+        }
+
+        .menu a:hover::after {
+            width: 100%;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 30px;
+            height: 3px;
+            background: #2c3e50;
+            margin: 4px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* About Section */
+        .about-section {
+            padding: 150px 5% 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .content h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            display: inline-block;
+        }
+
+        .content h2::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #2c3e50;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        /* Mission & Vision */
+        .mission-vision {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin: 60px 0;
+        }
+
+        .mission, .vision {
+            flex: 1;
+            min-width: 300px;
+            background: #ffffff;
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15);
+            border: 2px solid #e0e6ed;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+
+        .mission:hover, .vision:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.25);
+            border-color: #667eea;
+        }
+
+        .mission h3, .vision h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .mission p, .vision p {
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+       footer {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 30px 5%;
+            text-align: center;
+            border-top: 1px solid #e0e6ed;
+            margin-top: auto;
+        }
+
+        footer p {
+            margin-bottom: 20px;
+            color: #524f4f;
+        }
+
+        .socials {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .socials a {
+            color: #333;
+            font-size: 1.5rem;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .socials a:hover {
+            color: #667eea;
+        }
+
+        /* Values Section */
+        .values {
+            margin: 60px 0;
+            text-align: center;
+        }
+
+        .values h3 {
+            font-size: 2rem;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .value-item {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #e0e6ed;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .value-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .value-item h4 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .value-item p {
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        /* Team Section */
+        .team {
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .team h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 50px;
+            color: #2c3e50;
+            position: relative;
+            display: inline-block;
+        }
+
+        .team h2::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .team-members {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .team-member {
+            background: #ffffff;
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            width: 280px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15);
+            border: 2px solid #e0e6ed;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.25);
+            border-color: #667eea;
+        }
+
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 4px solid #667eea;
+            transition: transform 0.3s;
+        }
+
+        .team-member:hover img {
+            transform: scale(1.05);
+        }
+
+        .team-member h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .team-member p {
+            color: #667eea;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .team-member a {
+            color: #2c3e50;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .team-member a:hover {
+            color: #667eea;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .about-section {
+                padding: 150px 5% 60px;
+            }
+
+            .mission-vision {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .mission, .vision {
+                width: 100%;
+                max-width: 600px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 5%;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 250px;
+                height: 100vh;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: right 0.5s ease;
+                z-index: 1000;
+                box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .menu.active {
+                right: 0;
+            }
+
+            .menu ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .menu li {
+                margin: 20px 0;
+            }
+
+            .content h2 {
+                font-size: 2.5rem;
+            }
+
+            .team h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content h2 {
+                font-size: 2rem;
+            }
+
+            .content p {
+                font-size: 1rem;
+            }
+
+            .mission, .vision {
+                padding: 30px 20px;
+            }
+
+            .team-member {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .about-section {
+                padding: 130px 20px 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hai">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <a href="index.php">
+                <img src="images/icon.png" alt="VeloRent Logo">
+            </a>
+            
+            <!-- Hamburger Menu -->
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <div class="menu" id="menu">
+                <ul>
+                    <li><a href="index.php">Home</a></li>
+                    <li><a href="aboutus.html">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="login.php">Login</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <section class="about-section">
+            <div class="content">
+                <h2>About Us</h2>
+                <p>At VeloRent, we are passionate about providing top-quality vehicles to meet your needs. Whether you're traveling for business, vacation, or need a reliable vehicle for a special event, we have the perfect car, scooter, or bike for you. Our mission is to provide the best rental experience with great customer service and affordable prices.</p>
+            </div>
+
+            <!-- Mission & Vision Section -->
+            <div class="mission-vision">
+                <div class="mission">
+                    <h3>Our Mission</h3>
+                    <p>To provide premium vehicle rental services that exceed customer expectations through exceptional quality, reliability, and outstanding customer service. We strive to make every journey memorable and hassle-free.</p>
+                </div>
+                <div class="vision">
+                    <h3>Our Vision</h3>
+                    <p>To become the leading vehicle rental service provider globally, recognized for our innovation, customer-centric approach, and commitment to sustainable mobility solutions.</p>
+                </div>
+            </div>
+
+            <!-- Values Section -->
+            <div class="values">
+                <h3>Our Core Values</h3>
+                <div class="values-grid">
+                    <div class="value-item">
+                        <h4>Customer First</h4>
+                        <p>Our customers are at the heart of everything we do. We listen, understand, and deliver beyond expectations.</p>
+                    </div>
+                    <div class="value-item">
+                        <h4>Excellence</h4>
+                        <p>We strive for excellence in every aspect of our service, from vehicle maintenance to customer support.</p>
+                    </div>
+                    <div class="value-item">
+                        <h4>Innovation</h4>
+                        <p>Continuously improving our services and embracing new technologies to enhance the rental experience.</p>
+                    </div>
+                    <div class="value-item">
+                        <h4>Integrity</h4>
+                        <p>We conduct our business with honesty, transparency, and respect for all stakeholders.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Section -->
+            <div class="team">
+                <h2>Our Team</h2>
+                <div class="team-members">
+                    <div class="team-member">
+                        <a href="https://www.facebook.com/thomasbhattrai " target="_blank">
+                            <img src="images/thomas.jpg" alt="Thomas Bhattarai">
+                        </a>
+                        <h3>Thomas Bhattarai</h3>
+                        <p>CEO & Founder</p>
+                        <p>With over 10 years of experience in the automotive industry, Thomas leads our vision and strategy.</p>
+                    </div>
+                    <div class="team-member">
+                        <a href="https://www.facebook.com/swosti.makaju " target="_blank">
+                            <img src="images/swosti.jpg" alt="Swosti Makaju">
+                        </a>
+                        <h3>Swosti Makaju</h3>
+                        <p>Chief Operations Officer</p>
+                        <p>Swosti ensures smooth operations and maintains the highest standards of service quality.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 VeloRent. All Rights Reserved.</p>
+            <div class="socials">
+                <a href="https://www.facebook.com/thomasbhattrai" target="_blank"><ion-icon name="logo-facebook"></ion-icon></a>
+                <a href="https://x.com/" target="_blank"><ion-icon name="logo-twitter"></ion-icon></a>
+                <a href="https://www.instagram.com/swostimakaju/" target="_blank"><ion-icon name="logo-instagram"></ion-icon></a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js "></script>\n    \n    <!-- Embedded JavaScript -->
+    <script>
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const menu = document.getElementById('menu');
+
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            menu.classList.toggle('active');
+            
+            // Prevent scrolling when menu is open
+            if(menu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Close menu when clicking on a link
+        const menuLinks = document.querySelectorAll('.menu a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                menu.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!menu.contains(event.target) && !hamburger.contains(event.target)) {
+                hamburger.classList.remove('active');
+                menu.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+    </script>
+</body>
+</html>

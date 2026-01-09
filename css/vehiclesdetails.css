@@ -1,0 +1,413 @@
+/* Reset and global styles with premium typography */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Body styling with flexbox for sticky footer */
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: rgba(255, 255, 255, 0.9);
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Main content container */
+.cd {
+    margin-top: 100px; /* Adjust for fixed navbar */
+    flex: 1; /* Allow main content to take available space */
+    padding: 40px 20px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Navbar styling - fixed at top with no gap */
+.navbar {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* Logo styling with refined gradient */
+.icon .logo {
+    font-size: 28px;
+    font-weight: 700;
+    color: transparent;
+    background: linear-gradient(90deg, #6c5ce7, #a29bfe);
+    -webkit-background-clip: text;
+    background-clip: text;
+    letter-spacing: 1px;
+    position: relative;
+    padding: 5px 10px;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.icon .logo:hover {
+    transform: scale(1.05);
+}
+
+/* Menu styling with improved spacing and hover effects */
+.menu ul {
+    display: flex;
+    list-style: none;
+    gap: 35px;
+    align-items: center;
+}
+
+.menu ul li a, .menu ul li p a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+}
+
+.menu ul li a:hover, .menu ul li p a:hover {
+    color: #6c5ce7;
+    transform: translateY(-1px);
+}
+
+.menu ul li a::after, .menu ul li p a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #6c5ce7;
+    transition: width 0.3s ease;
+}
+
+.menu ul li a:hover::after, .menu ul li p a:hover::after {
+    width: 100%;
+}
+
+/* Logout button styling */
+.menu ul li button.nn {
+    background: linear-gradient(90deg, #e74c3c, #c0392b);
+    padding: 10px 25px;
+    border-radius: 10px;
+    border: none;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.2);
+}
+
+.menu ul li button.nn:hover {
+    background: linear-gradient(90deg, #c0392b, #e74c3c);
+    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+    transform: translateY(-2px);
+}
+
+.menu ul li button.nn a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* User name styling */
+.phello {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Overview heading styling */
+.overview {
+    font-size: 36px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    margin: 40px 0;
+    position: relative;
+}
+
+.overview::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: #6c5ce7;
+    border-radius: 2px;
+}
+
+/* Vehicle cards container */
+.de {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* Vehicle card styling */
+.box {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    width: 300px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(20px);
+}
+
+.box:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Vehicle image styling */
+.imgBx {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.imgBx img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Vehicle content styling */
+.content {
+    padding: 20px;
+    text-align: center;
+}
+
+.content h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 15px;
+}
+
+.content h2 {
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 10px 0;
+}
+
+.content h2 a {
+    color: #6c5ce7;
+    text-decoration: none;
+}
+
+/* Book button styling */
+.utton {
+    background: #6c5ce7;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.utton:hover {
+    background: #5a4ed1;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+}
+
+.utton a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Footer styling - sticky at bottom */
+footer {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    padding: 30px 40px;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    margin-top: auto; /* Push footer to the bottom */
+}
+
+footer p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+}
+
+.socials {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 15px;
+}
+
+.socials a {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 28px;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.socials a:hover {
+    color: #6c5ce7;
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.2);
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .navbar {
+        padding: 20px;
+    }
+
+    .menu ul {
+        gap: 25px;
+    }
+
+    .cd {
+        padding: 20px;
+    }
+
+    .box {
+        width: 280px;
+    }
+
+    footer {
+        padding: 25px 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px 20px;
+    }
+
+    .menu ul {
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 20px;
+        width: 100%;
+    }
+
+    .menu ul li {
+        width: 100%;
+    }
+
+    .menu ul li a, .menu ul li p a {
+        display: block;
+        text-align: center;
+    }
+
+    .menu ul li button.nn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .cd {
+        margin-top: 120px;
+    }
+
+    .overview {
+        font-size: 28px;
+    }
+
+    .de {
+        gap: 20px;
+    }
+
+    .box {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    footer {
+        padding: 20px;
+    }
+
+    .socials {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cd {
+        padding: 20px 10px;
+    }
+
+    .logo {
+        font-size: 24px;
+    }
+
+    .overview {
+        font-size: 24px;
+    }
+
+    .socials a {
+        font-size: 24px;
+        width: 35px;
+        height: 35px;
+    }
+
+    footer p {
+        font-size: 13px;
+    }
+}
+
+/* Enhanced accessibility */
+:focus-visible {
+    outline: 2px solid #6c5ce7;
+    outline-offset: 3px;
+    border-radius: 8px;
+}

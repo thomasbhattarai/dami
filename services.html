@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - VeloRent</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #ffffff;
+            color: #1a1a1a;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hai {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .services {
+            flex: 1;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar img {
+            height: 50px;
+            transition: transform 0.3s;
+        }
+
+        .navbar img:hover {
+            transform: scale(1.05);
+        }
+
+        .menu ul {
+            display: flex;
+            list-style: none;
+        }
+
+        .menu li {
+            margin-left: 40px;
+        }
+
+        .menu a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s, border-bottom 0.3s;
+            padding-bottom: 5px;
+            position: relative;
+        }
+
+        .menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+        }
+
+        .menu a:hover {
+            color: #667eea;
+        }
+
+        .menu a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 30px;
+            height: 3px;
+            background: #333;
+            margin: 4px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        .hai {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .services {
+            padding: 150px 5% 80px;
+            text-align: center;
+            flex: 1;
+        }
+
+        .services h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            display: inline-block;
+        }
+
+        .services h2::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .service-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .service-card {
+            background: rgba(0, 0, 0, 0.02);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            width: 350px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: transform 0.4s, box-shadow 0.4s;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .service-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .service-card:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12);
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-icon {
+            font-size: 4rem;
+            margin-bottom: 25px;
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1);
+        }
+
+        .service-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .service-card p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .service-features {
+            list-style: none;
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .service-features li {
+            padding: 8px 0;
+            color: #444;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .service-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .service-cta {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .service-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .services-info {
+            max-width: 800px;
+            margin: 60px auto 0;
+            background: rgba(0, 0, 0, 0.02);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .services-info h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        .services-info p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .benefit-item {
+            background: rgba(0, 0, 0, 0.02);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .benefit-item h4 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .benefit-item p {
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 30px 5%;
+            text-align: center;
+            border-top: 1px solid #e0e6ed;
+            margin-top: auto;
+        }
+
+        footer p {
+            margin-bottom: 15px;
+            color: #524f4f;
+            font-weight: 500;
+        }
+
+        .socials {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .socials a {
+            color: #333;
+            font-size: 1.5rem;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .socials a:hover {
+            color: #667eea;
+            transform: scale(1.2);
+        }
+
+        @media (max-width: 1200px) {
+            .service-cards {
+                gap: 30px;
+            }
+
+            .service-card {
+                width: 300px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .services {
+                padding: 150px 5% 60px;
+            }
+
+            .service-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .service-card {
+                width: 100%;
+                max-width: 500px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 5%;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 250px;
+                height: 100vh;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: right 0.5s ease;
+                z-index: 1000;
+                box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .menu.active {
+                right: 0;
+            }
+
+            .menu ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .menu li {
+                margin: 20px 0;
+            }
+
+            .services h2 {
+                font-size: 2.5rem;
+            }
+
+            .services-info {
+                padding: 30px 20px;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .services h2 {
+                font-size: 2rem;
+            }
+
+            .service-card {
+                padding: 30px 20px;
+            }
+
+            .service-icon {
+                font-size: 3rem;
+            }
+
+            .service-card h3 {
+                font-size: 1.5rem;
+            }
+
+            .services {
+                padding: 130px 20px 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hai">
+        <nav class="navbar">
+            <a href="index.php">
+                <img src="images/icon.png" alt="VeloRent Logo">
+            </a>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="menu" id="menu">
+                <ul>
+                    <li><a href="index.php">Home</a></li>
+                    <li><a href="aboutus.html">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="login.php">Login</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="services">
+            <h2>What We Offer</h2>
+            <div class="service-cards">
+                <div class="service-card">
+                    <div class="service-icon">🚗</div>
+                    <h3>Car Rentals</h3>
+                    <p>Rent premium vehicles for any occasion, from luxury to economy models. Perfect for business
+                        trips, family vacations, or special events.</p>
+                    <ul class="service-features">
+                        <li>Luxury & Economy models</li>
+                        <li>Flexible rental periods</li>
+                        <li>Full insurance coverage</li>
+                        <li>24/7 Roadside assistance</li>
+                        <li>Free delivery within city</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🏍️</div>
+                    <h3>Motorbike Rentals</h3>
+                    <p>Experience freedom with our well-maintained motorbikes for city travel. Perfect for adventure
+                        seekers and daily commuters.</p>
+                    <ul class="service-features">
+                        <li>Latest models available</li>
+                        <li>Helmets & safety gear included</li>
+                        <li>Fuel-efficient options</li>
+                        <li>Easy pickup & drop-off</li>
+                        <li>Maintenance included</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🛵</div>
+                    <h3>Scooter Rentals</h3>
+                    <p>Perfect for quick rides around the city with affordable scooter rentals. Easy to ride, park,
+                        enjoy and navigate through traffic.</p>
+                    <ul class="service-features">
+                        <li>Easy to maneuver</li>
+                        <li>Perfect for city commuting</li>
+                        <li>Low rental rates</li>
+                        <li>Automatic transmission</li>
+                        <li>Daily & weekly packages</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="services-info">
+                <h3>Why Choose VeloRent?</h3>
+                <p>We provide more than just vehicle rentals - we offer complete mobility solutions with exceptional
+                    customer service, transparent pricing, and premium vehicles maintained to the highest standards.</p>
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <h4>Premium Quality</h4>
+                        <p>All vehicles are regularly serviced and maintained to ensure your safety and comfort.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h4>24/7 Support</h4>
+                        <p>Our customer support team is available round the clock to assist you with any queries.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h4>Flexible Booking</h4>
+                        <p>Book online or through our app with flexible cancellation and modification policies.</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h4>Best Prices</h4>
+                        <p>Competitive pricing with no hidden charges. We guarantee the best value for money.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <footer>
+            <p>&copy; 2025 VeloRent. All Rights Reserved.</p>
+            <div class="socials">
+                <a href="https://www.facebook.com/thomasbhattrai" target="_blank">
+                    <ion-icon name="logo-facebook"></ion-icon>
+                </a>
+                <a href="https://x.com/" target="_blank">
+                    <ion-icon name="logo-twitter"></ion-icon>
+                </a>
+                <a href="https://www.instagram.com/swostimakaju/" target="_blank">
+                    <ion-icon name="logo-instagram"></ion-icon>
+                </a>
+            </div>
+        </footer>
+    </div>
+    <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const menu = document.getElementById('menu');
+        hamburger.addEventListener('click', function () {
+            hamburger.classList.toggle('active');
+            menu.classList.toggle('active');
+            if (menu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        });
+        const menuLinks = document.querySelectorAll('.menu a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', function () {
+                hamburger.classList.remove('active');
+                menu.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        });
+        document.addEventListener('click', function (event) {
+            if (!menu.contains(event.target) && !hamburger.contains(event.target)) {
+                hamburger.classList.remove('active');
+                menu.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.style.animationPlayState = 'paused';
+            observer.observe(card);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,151 @@
+/* Reset and global styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Body styling with centered content */
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+
+/* Admin greeting styling - centered */
+.helloadmin {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.helloadmin h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+/* Form container styling - centered */
+.form {
+    width: 100%;
+    max-width: 400px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 40px 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center form contents */
+}
+
+/* Form title styling - centered */
+.form h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+/* Input fields styling - centered */
+.h {
+    width: 100%;
+    max-width: 320px; /* Slightly narrower for better centering */
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    text-align: center; /* Center text in inputs */
+}
+
+.h:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.h::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 400;
+    text-align: center; /* Center placeholder text */
+}
+
+/* Submit button styling - centered */
+.btnn {
+    width: 100%;
+    max-width: 320px; /* Match input width for alignment */
+    padding: 16px;
+    background: linear-gradient(90deg, #00ff88, #00d4ff);
+    border: none;
+    border-radius: 12px;
+    color: #1a1a2e;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0, 255, 136, 0.2);
+}
+
+.btnn:hover {
+    background: linear-gradient(90deg, #00d4ff, #00ff88);
+    box-shadow: 0 12px 30px rgba(0, 255, 136, 0.3);
+}
+
+/* Responsive design - maintain centering */
+@media (max-width: 480px) {
+    .form {
+        padding: 30px 20px;
+    }
+
+    .helloadmin h1 {
+        font-size: 30px;
+    }
+
+    .form h2 {
+        font-size: 20px;
+    }
+
+    .h {
+        padding: 12px 15px;
+        max-width: 280px; /* Adjust for smaller screens */
+    }
+
+    .btnn {
+        padding: 14px;
+        max-width: 280px; /* Adjust for smaller screens */
+    }
+
+    .back {
+        margin-bottom: 15px;
+    }
+}
+
+/* Enhanced accessibility */
+:focus-visible {
+    outline: 2px solid #00ff88;
+    outline-offset: 3px;
+    border-radius: 8px;
+}
+
+/* Custom invalid input styling */
+.h:invalid:not(:placeholder-shown) {
+    box-shadow: inset 0 0 0 1px #ff6b6b;
+    background: rgba(255, 107, 107, 0.1);
+}

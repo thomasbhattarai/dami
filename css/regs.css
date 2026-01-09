@@ -1,0 +1,272 @@
+/* Reset and global styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Body styling with centered content */
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Main container - fixed in center */
+.main {
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 30px;
+    position: relative;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(20px);
+}
+
+/* Register form container - no animations or movements */
+.register {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+    border-radius: 24px;
+    padding: 50px 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Remove any decorative animations that could cause movement */
+.register::before {
+    content: none;
+}
+
+/* Form title - no animations */
+.register h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Form labels - no transform animations */
+label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+/* Input fields - remove transform effects */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"] {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+/* Placeholder styling */
+input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 400;
+}
+
+/* Gender group */
+.gender-group {
+    display: flex;
+    gap: 25px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.gender-group label {
+    margin-bottom: 0;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+}
+
+.gender-group input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.gender-group input[type="radio"] + label::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.gender-group input[type="radio"]:checked + label::before {
+    background: #00ff88;
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+    border-color: #00ff88;
+}
+
+.gender-group input[type="radio"]:checked + label::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ffffff;
+}
+
+/* Submit button - remove transform effects */
+.btnn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(90deg, #00ff88, #00d4ff);
+    border: none;
+    border-radius: 12px;
+    color: #1a1a2e;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 30px;
+    box-shadow: 0 8px 25px rgba(0, 255, 136, 0.2);
+}
+
+.btnn:hover {
+    background: linear-gradient(90deg, #00d4ff, #00ff88);
+    box-shadow: 0 12px 30px rgba(0, 255, 136, 0.3);
+}
+
+/* Password message box - ensure no layout shift */
+#message {
+    visibility: hidden;
+    opacity: 0;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 25px;
+    backdrop-filter: blur(10px);
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+#message[style*="block"] {
+    visibility: visible;
+    opacity: 1;
+}
+
+#message h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 12px;
+}
+
+#message p {
+    font-size: 13px;
+    margin: 6px 0;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+#message p.invalid {
+    color: #ff6b6b;
+}
+
+#message p.valid {
+    color: #00ff88;
+}
+
+#message p::before {
+    content: '✦';
+    margin-right: 10px;
+    color: inherit;
+}
+
+/* Remove all animations that could cause movement */
+@keyframes gradientShift {
+    /* Removed to prevent background movement */
+}
+
+@keyframes floatIn {
+    /* Removed to prevent form entrance animation */
+}
+
+@keyframes subtleRotate {
+    /* Removed to prevent decorative movement */
+}
+
+@keyframes shine {
+    /* Removed to prevent text shine movement */
+}
+
+/* Responsive design - maintain center position */
+@media (max-width: 480px) {
+    .main {
+        padding: 20px;
+    }
+
+    .register {
+        padding: 40px 30px;
+    }
+
+    .register h2 {
+        font-size: 28px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="password"] {
+        padding: 12px 15px;
+    }
+
+    .btnn {
+        padding: 14px;
+    }
+}
+
+/* Enhanced accessibility */
+:focus-visible {
+    outline: 2px solid #00ff88;
+    outline-offset: 3px;
+    border-radius: 8px;
+}
+
+/* Custom invalid input styling */
+input:invalid:not(:placeholder-shown) {
+    box-shadow: inset 0 0 0 1px #ff6b6b;
+    background: rgba(255, 107, 107, 0.1);
+}
