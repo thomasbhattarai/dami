@@ -12,11 +12,11 @@ $availVeh   = mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(*) AS c FROM ve
 $totalUsers = mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(*) AS c FROM users"))['c'];
 $totalBook  = mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(*) AS c FROM booking"))['c'];
 
-/* ----------  1.  LAST-7-DAYS REVENUE (PAID) ---------- */
+/* ----------  1.  LAST-7-DAYS REVENUE (all except Canceled) ---------- */
 $rev7 = mysqli_query($con,
  "SELECT DATE(BOOK_DATE) AS d, SUM(PRICE) AS amt
   FROM booking
-  WHERE BOOK_STATUS='PAID'
+  WHERE BOOK_STATUS NOT IN ('Canceled')
     AND BOOK_DATE >= CURDATE() - INTERVAL 6 DAY
   GROUP BY d
   ORDER BY d");
@@ -33,9 +33,9 @@ for ($i = 6; $i >= 0; $i--) {
     $revData[]   = intval($revMap[$date] ?? 0);
 }
 
-/* ----------  2.  TOTAL REVENUE (all time, PAID)  ---------- */
+/* ----------  2.  TOTAL REVENUE (all time, all bookings)  ---------- */
 $revAll = mysqli_fetch_assoc(mysqli_query($con,
-  "SELECT COALESCE(SUM(PRICE),0) AS amt FROM booking WHERE BOOK_STATUS='PAID'"
+  "SELECT COALESCE(SUM(PRICE),0) AS amt FROM booking WHERE BOOK_STATUS NOT IN ('Canceled')"
 ));
 $revenue = (int)($revAll['amt'] ?? 0);     // used in stat-card
 
@@ -44,12 +44,13 @@ $traffic = mysqli_query($con,
  "SELECT v.VEHICLE_TYPE, COUNT(*) AS rides
   FROM booking b
   JOIN vehicles v ON b.VEHICLE_ID = v.VEHICLE_ID
+  WHERE b.BOOK_STATUS NOT IN ('Canceled')
   GROUP BY v.VEHICLE_TYPE
   ORDER BY rides DESC");
 
 /* ----------  4.  UNIQUE CUSTOMERS  ---------- */
 $customers = mysqli_fetch_assoc(
-    mysqli_query($con,"SELECT COUNT(DISTINCT EMAIL) AS c FROM booking")
+    mysqli_query($con,"SELECT COUNT(DISTINCT EMAIL) AS c FROM booking WHERE BOOK_STATUS NOT IN ('Canceled')")
 )['c'] ?: 0;
 
 /* ----------  RECENT BOOKINGS (last 5)  ---------- */
@@ -90,6 +91,7 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-d
 .charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:25px;margin-bottom:40px}
 .chart-box{background:var(--card);border:2px solid var(--border);border-radius:12px;padding:20px;text-align:center}
 .chart-box h4{margin-bottom:15px;color:var(--primary)}canvas{max-height:180px}
+#revChart{max-height:250px}
 .recent-header{font-size:1.5rem;margin-bottom:15px;font-weight:600}
 .table-container{overflow-x:auto;border-radius:12px;border:2px solid var(--border);background:#fff}
 .content-table{width:100%;border-collapse:collapse}
@@ -151,10 +153,25 @@ new Chart(revCtx, {
       borderColor: '#667eea',
       backgroundColor: 'rgba(102,126,234,.15)',
       tension: .3,
-      pointRadius: 3
+      pointRadius: 4,
+      pointHoverRadius: 6,
+      borderWidth: 2
     }]
   },
-  options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+  options: { 
+    maintainAspectRatio: true,
+    aspectRatio: 1.8,
+    plugins: { legend: { display: false } }, 
+    scales: { 
+      y: { 
+        beginAtZero: true,
+        ticks: {
+          stepSize: 5000,
+          callback: function(value) { return 'Rs ' + value.toLocaleString(); }
+        }
+      } 
+    } 
+  }
 });
 
 /* 2) traffic-share doughnut */

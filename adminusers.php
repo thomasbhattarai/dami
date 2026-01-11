@@ -257,7 +257,7 @@ footer{
             while($res = mysqli_fetch_array($queryy)):
             ?>
                 <tr>
-                    <td><?=htmlspecialchars($res['FNAME']." ".$res['LNAME'])?></td>
+                    <td><a href="adminbook.php?user=<?=urlencode($res['EMAIL'])?>" style="color:#667eea;font-weight:600;text-decoration:none;"><?=htmlspecialchars($res['FNAME']." ".$res['LNAME'])?></a></td>
                     <td><?=htmlspecialchars($res['EMAIL'])?></td>
                     <td><?=htmlspecialchars($res['LIC_NUM'])?></td>
                     <td><?=htmlspecialchars($res['PHONE_NUMBER'])?></td>

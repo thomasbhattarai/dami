@@ -146,14 +146,17 @@ footer{
 <main class="main-content">
 <div class="admin-stats">
 <?php
-$total=mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(*) total FROM booking"))['total'];
-$pending=mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(*) pending FROM booking WHERE BOOK_STATUS='PENDING'"))['pending'];
+$filterEmail = isset($_GET['user']) ? mysqli_real_escape_string($con, $_GET['user']) : '';
+$emailClause = $filterEmail ? " AND EMAIL='$filterEmail'" : '';
+
+$total=mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(*) total FROM booking WHERE BOOK_STATUS NOT IN ('RETURNED','Canceled')$emailClause"))['total'];
+$pending=mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(*) pending FROM booking WHERE BOOK_STATUS IN ('PENDING','UNDER PROCESSING','PAID')$emailClause"))['pending'];
 ?>
 <div class="stat-card"><h3>Total Bookings</h3><p><?=$total?></p></div>
 <div class="stat-card"><h3>Pending Approval</h3><p><?=$pending?></p></div>
 </div>
 
-<h1 class="header">Booking Management</h1>
+<h1 class="header">Booking Management<?php if($filterEmail) echo ' - '.htmlspecialchars($filterEmail); ?></h1>
 
 <div class="table-container">
 <table class="content-table">
@@ -167,12 +170,13 @@ $pending=mysqli_fetch_assoc(mysqli_query($con,"SELECT COUNT(*) pending FROM book
 </thead>
 <tbody>
 <?php
+$where = $filterEmail ? "b.EMAIL='$filterEmail'" : "b.BOOK_STATUS NOT IN ('RETURNED', 'Canceled')";
 $res=mysqli_query($con,
 "SELECT b.*,v.VEHICLE_NAME,u.FNAME,u.LNAME
 FROM booking b
 LEFT JOIN vehicles v ON b.VEHICLE_ID=v.VEHICLE_ID
 LEFT JOIN users u ON b.EMAIL=u.EMAIL
-WHERE b.BOOK_STATUS NOT IN ('RETURNED', 'Canceled')
+WHERE $where
 ORDER BY b.BOOK_ID DESC");
 
 while($row=mysqli_fetch_assoc($res)):
@@ -190,14 +194,20 @@ $statusColor=$row['BOOK_STATUS']=='APPROVED'?'#28a745':'#ffc107';
 <td><?=$row['RETURN_DATE']?></td>
 <td style="color:<?=$statusColor?>;font-weight:600"><?=$row['BOOK_STATUS']?></td>
 <td>
-<?php if($row['BOOK_STATUS']!=='APPROVED'): ?>
+<?php if($row['BOOK_STATUS']!=='APPROVED' && $row['BOOK_STATUS']!=='RETURNED' && $row['BOOK_STATUS']!=='Canceled'): ?>
     <a class="button approve-btn" href="approve.php?id=<?=$row['BOOK_ID']?>">APPROVE</a>
-<?php else: ?>
-    <!-- Approved: hide button -->
 <?php endif; ?>
 </td>
-<td><a class="button return-btn" href="adminreturn.php?id=<?=$row['VEHICLE_ID']?>&bookid=<?=$row['BOOK_ID']?>">RETURNED</a></td>
-<td><a class="button cancel-btn" href="admincancelbooking.php?id=<?=$row['BOOK_ID']?>" onclick="return confirm('Cancel this booking?')">CANCEL</a></td>
+<td>
+<?php if($row['BOOK_STATUS']==='APPROVED'): ?>
+    <a class="button return-btn" href="adminreturn.php?id=<?=$row['VEHICLE_ID']?>&bookid=<?=$row['BOOK_ID']?>">RETURNED</a>
+<?php endif; ?>
+</td>
+<td>
+<?php if($row['BOOK_STATUS']!=='RETURNED' && $row['BOOK_STATUS']!=='Canceled'): ?>
+    <a class="button cancel-btn" href="admincancelbooking.php?id=<?=$row['BOOK_ID']?>" onclick="return confirm('Cancel this booking?')">CANCEL</a>
+<?php endif; ?>
+</td>
 </tr>
 <?php endwhile; ?>
 </tbody>

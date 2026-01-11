@@ -98,6 +98,35 @@ ob_start();
             box-shadow: 0 5px 15px rgba(64, 102, 178, 0.4);
         }
 
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 30px;
+            height: 3px;
+            background: #193959ff;
+            margin: 4px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
         /* Search & Filter Bar */
         .search-filter {
             display: flex;
@@ -350,6 +379,49 @@ ob_start();
 
         /* Responsive */
         @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 100%;
+                max-width: 300px;
+                height: 100vh;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                justify-content: flex-start;
+                padding-top: 80px;
+                transition: right 0.4s ease;
+                z-index: 1000;
+                box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+                overflow-y: auto;
+            }
+
+            .menu.active {
+                right: 0;
+            }
+
+            .menu ul {
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+                padding: 0 30px;
+                gap: 0;
+            }
+
+            .menu li {
+                margin: 20px 0;
+                width: 100%;
+            }
+
+            .menu a, .menu p {
+                display: block;
+            }
+
             .search-filter {
                 flex-direction: column;
                 gap: 15px;
@@ -408,19 +480,24 @@ ob_start();
     
     $vehicles = mysqli_query($con, $sql2);
     
-    // Pull the most recently returned vehicles across all users for lightweight recommendations
+    // Pull most booked vehicle per category (e.g., Car/Bike/Scooter) for recommendations
     $recommendedReturned = [];
-    $returnedSql = "SELECT v.*, MAX(b.RETURN_DATE) AS LAST_RETURNED
-                    FROM booking b
-                    JOIN vehicles v ON b.VEHICLE_ID = v.VEHICLE_ID
-                    WHERE b.BOOK_STATUS = 'RETURNED' AND v.AVAILABLE = 'Y'
-                    GROUP BY v.VEHICLE_ID
-                    ORDER BY LAST_RETURNED DESC, MAX(b.BOOK_ID) DESC
-                    LIMIT 6";
-    if ($returnedResult = mysqli_query($con, $returnedSql)) {
-        while ($row = mysqli_fetch_assoc($returnedResult)) {
-            $recommendedReturned[] = $row;
+    $topBookedSql = "SELECT v.*, COUNT(b.BOOK_ID) AS BOOK_COUNT
+                     FROM vehicles v
+                     LEFT JOIN booking b ON b.VEHICLE_ID = v.VEHICLE_ID AND b.BOOK_STATUS <> 'Canceled'
+                     GROUP BY v.VEHICLE_ID
+                     ORDER BY BOOK_COUNT DESC, v.VEHICLE_ID DESC";
+
+    if ($topResult = mysqli_query($con, $topBookedSql)) {
+        $byType = [];
+        while ($row = mysqli_fetch_assoc($topResult)) {
+            $typeKey = strtolower($row['VEHICLE_TYPE']);
+            // Only take the first (highest booked) vehicle per category with at least 1 booking
+            if (!isset($byType[$typeKey]) && (int)$row['BOOK_COUNT'] > 0) {
+                $byType[$typeKey] = $row;
+            }
         }
+        $recommendedReturned = array_values($byType);
     }
 
     // Collect public reviews to display under vehicles
@@ -458,11 +535,20 @@ ob_start();
         <div class="icon">
             <a href="vehiclesdetails.php"><img style="height: 50px;" src="images/icon.png" alt="VeloRent Logo"></a>
         </div>
-        <div class="menu">
+        
+        <!-- Hamburger Menu -->
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+        <div class="menu" id="menu">
             <ul>
                 <li><p class="phello"><a id="pname" href="userprofile.php" style="cursor: pointer;"><?php echo htmlspecialchars($rows['FNAME'].' '.$rows['LNAME']); ?></a></p></li>
                 <li><a id="stat" href="bookingstatus.php">BOOKING STATUS</a></li>
-                <li><button class="nn"><a href="index.php">LOGOUT</a></button></li>
+                <li><a id="vehicles" href="vehiclesdetails.php">VEHICLES</a></li>
+                <li><a href="index.php">LOGOUT</a></li>
             </ul>
         </div>
     </nav>
@@ -495,10 +581,10 @@ ob_start();
 
     <h1 class="overview">OUR VEHICLE OVERVIEW</h1>
 
-    <!-- Recently Returned Recommendations (global) -->
+    <!-- Top booked vehicle per category -->
     <?php if (!empty($recommendedReturned)): ?>
     <div class="recommended-section">
-        <h2>Recommended</h2>
+        <h2>Most Booked By Category</h2>
         <ul class="de">
             <?php foreach ($recommendedReturned as $vehicle):
                 $res = $vehicle['VEHICLE_ID'];
@@ -687,6 +773,41 @@ ob_start();
             document.getElementById('priceFilterDropdown').classList.remove('show');
         }
     }
+
+    // Hamburger menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const menu = document.getElementById('menu');
+
+    hamburger.addEventListener('click', function() {
+        hamburger.classList.toggle('active');
+        menu.classList.toggle('active');
+        
+        // Prevent scrolling when menu is open
+        if(menu.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    });
+
+    // Close menu when clicking on a link
+    const menuLinks = document.querySelectorAll('.menu a');
+    menuLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            hamburger.classList.remove('active');
+            menu.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!menu.contains(event.target) && !hamburger.contains(event.target)) {
+            hamburger.classList.remove('active');
+            menu.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    });
 </script>
 </body>
 </html>
